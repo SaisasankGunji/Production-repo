@@ -8,37 +8,35 @@ const categoryRouter = require("./routes/categoryRouter");
 const transactionRouter = require("./routes/transactionRouter");
 const app = express();
 
-//Connect to mongodb
+// Connect to MongoDB
 mongoose
-  .connect(process.env.mongodb_URL)
+  .connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("DB Connected"))
-  .catch((e) => console.log(e));
+  .catch((e) => console.log("DB Connection Error:", e));
 
-//! Cors config
+// CORS Configuration
 const corsOptions = {
-  origin: ["http://localhost:5173",
-    "https://frontend-expenses-tracker.netlify.app"],
+  origin: ["http://localhost:5173", "https://production-repo-frontend.vercel.app"],
+  credentials: true, // Allow cookies and authentication headers
 };
 app.use(cors(corsOptions));
 
-//!Middlewares
-app.use(express.json()); //?Pass incoming json data
+// Middlewares
+app.use(express.json()); // Parse incoming JSON data
 
-//Routes
-app.use("/", userRouter);
-app.use("/", categoryRouter);
-app.use("/", transactionRouter);
+// Proper Route Mounting
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/categories", categoryRouter);
+app.use("/api/v1/transactions", transactionRouter);
 
+// Health Check Route
 app.get("/", (req, res) => {
-  res.send({
-    activeStatus: true,
-    error: false,
-  });
+  res.send({ activeStatus: true, error: false });
 });
-//! Error
+
+// Error Handling Middleware
 app.use(errorHandler);
 
-//Start the server
-
+// Start the Server
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`Server is running on this port ${PORT}`));
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
