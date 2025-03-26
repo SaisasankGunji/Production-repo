@@ -1,66 +1,44 @@
 import axios from "axios";
-// import { BASE_URL } from "../../utils/url";
 import { getUserFromStorage } from "../../utils/getUserFromStorage";
 
-//! Get the token
-const token = getUserFromStorage();
-//! Add
+const API_BASE_URL = import.meta.env.VITE_BASE_URL;
+
+// Add Category
 export const addCategoryAPI = async ({ name, type }) => {
+  const token = getUserFromStorage();
   const response = await axios.post(
-    `${process.env.VITE_BASE_URL}/categories/create`,
-    {
-      name,
-      type,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+    `${API_BASE_URL}/categories/create`,
+    { name, type },
+    { headers: { Authorization: `Bearer ${token}` } }
   );
-  //Return a promise
   return response.data;
 };
-//! update
+
+// Update Category
 export const updateCategoryAPI = async ({ name, type, id }) => {
+  const token = getUserFromStorage();
   const response = await axios.put(
-    `${process.env.VITE_BASE_URL}/categories/update/${id}`,
-    {
-      name,
-      type,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+    `${API_BASE_URL}/categories/update/${id}`,
+    { name, type },
+    { headers: { Authorization: `Bearer ${token}` } }
   );
-  //Return a promise
   return response.data;
 };
-//! delete
+
+// Delete Category
 export const deleteCategoryAPI = async (id) => {
-  const response = await axios.delete(
-    `${process.env.VITE_BASE_URL}/categories/delete/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  //Return a promise
+  const token = getUserFromStorage();
+  const response = await axios.delete(`${API_BASE_URL}/categories/delete/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   return response.data;
 };
-//! lists
+
+// List Categories
 export const listCategoriesAPI = async () => {
-  const response = await axios.get(
-    `${process.env.VITE_BASE_URL}/categories/lists`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  //Return a promise
+  const token = getUserFromStorage();
+  const response = await axios.get(`${API_BASE_URL}/categories/lists`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   return response.data;
 };
