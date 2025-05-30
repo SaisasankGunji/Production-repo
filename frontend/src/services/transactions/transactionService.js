@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "../../utils/url";
+// import { import.meta.env.VITE_REACT_APP_BACKEND_URL } from "../../utils/url";
 import { getUserFromStorage } from "../../utils/getUserFromStorage";
 
 const token = getUserFromStorage();
@@ -12,7 +12,7 @@ export const addTransactionAPI = async ({
   amount,
 }) => {
   const response = await axios.post(
-    `${BASE_URL}/transactions/create`,
+    `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/transactions/create`,
     {
       category,
       date,
@@ -38,7 +38,7 @@ export const updateTransactionAPI = async ({
   id,
 }) => {
   const response = await axios.put(
-    `${BASE_URL}/transactions/update/${id}`,
+    `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/transactions/update/${id}`,
     {
       category,
       date,
@@ -56,11 +56,14 @@ export const updateTransactionAPI = async ({
 };
 
 export const deleteTransactionAPI = async (id) => {
-  const response = await axios.delete(`${BASE_URL}/transactions/delete/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await axios.delete(
+    `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/transactions/delete/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return response.data;
 };
 
@@ -70,11 +73,14 @@ export const listTransactionsAPI = async ({
   startDate,
   endDate,
 }) => {
-  const response = await axios.get(`${BASE_URL}/transactions/lists`, {
-    params: { category, endDate, startDate, type },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await axios.get(
+    `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/transactions/lists`,
+    {
+      params: { category, endDate, startDate, type },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return response.data;
 };

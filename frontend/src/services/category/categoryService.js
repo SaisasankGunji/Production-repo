@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "../../utils/url";
+// import { import.meta.env.VITE_REACT_APP_BACKEND_URL } from "../../utils/url";
 import { getUserFromStorage } from "../../utils/getUserFromStorage";
 
 //! Get the token
@@ -7,7 +7,7 @@ const token = getUserFromStorage();
 //! Add
 export const addCategoryAPI = async ({ name, type }) => {
   const response = await axios.post(
-    `${BASE_URL}/categories/create`,
+    `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/categories/create`,
     {
       name,
       type,
@@ -24,7 +24,7 @@ export const addCategoryAPI = async ({ name, type }) => {
 //! update
 export const updateCategoryAPI = async ({ name, type, id }) => {
   const response = await axios.put(
-    `${BASE_URL}/categories/update/${id}`,
+    `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/categories/update/${id}`,
     {
       name,
       type,
@@ -40,21 +40,27 @@ export const updateCategoryAPI = async ({ name, type, id }) => {
 };
 //! delete
 export const deleteCategoryAPI = async (id) => {
-  const response = await axios.delete(`${BASE_URL}/categories/delete/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await axios.delete(
+    `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/categories/delete/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   //Return a promise
   return response.data;
 };
 //! lists
 export const listCategoriesAPI = async () => {
-  const response = await axios.get(`${BASE_URL}/categories/lists`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await axios.get(
+    `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/categories/lists`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   //Return a promise
   return response.data;
 };
