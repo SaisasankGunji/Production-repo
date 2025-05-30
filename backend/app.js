@@ -17,11 +17,12 @@ mongoose
 
 // CORS Configuration
 const allowedOrigins = [
-  // "https://mern-todolist-lovat.vercel.app", // Deployed frontend
-  "http://localhost:5173", // Vite local dev
+  "http://localhost:5173", // For local development
+  "https://production-repo-expenses-tracker.vercel.app", // Deployed frontend
 ];
 
-// CORS middleware
+//CORS Middleware
+
 app.use(
   cors({
     origin: function (origin, callback) {
