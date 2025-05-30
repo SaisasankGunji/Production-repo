@@ -16,11 +16,25 @@ mongoose
   .catch((e) => console.log(e));
 
 // CORS Configuration
-const corsOptions = {
-  origin: ["http://localhost:5173"],
-};
+const allowedOrigins = [
+  // "https://mern-todolist-lovat.vercel.app", // Deployed frontend
+  "http://localhost:5173", // Vite local dev
+];
 
-app.use(cors(corsOptions));
+// CORS middleware
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 
 // Middlewares
 app.use(express.json()); // Parse incoming JSON data
@@ -32,8 +46,8 @@ app.use("/", transactionRouter);
 
 app.get("/", (req, res) => {
   res.send({
-    activeStatus: true,
-    error: false,
+    status: 200,
+    msg: "This is Home Page",
   });
 });
 
