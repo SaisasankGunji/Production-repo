@@ -19,6 +19,7 @@ mongoose
   })
   .catch((e) => console.log(e));
 
+console.log(process.env.MONGODB_URI);
 // CORS Configuration
 const allowedOrigins = [
   "http://localhost:5173", // For local development
