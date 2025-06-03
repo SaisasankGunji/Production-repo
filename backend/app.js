@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -9,10 +10,13 @@ const app = express();
 
 // Connect to MongoDB
 mongoose
-  .connect(
-    "mongodb+srv://Saisasank:Saisasank%40123@cluster0.y5nye.mongodb.net/mern-expenses"
-  )
-  .then(() => console.log("DB Connected"))
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log("DB Connected");
+    // Start the server
+    const PORT = process.env.PORT || 8000;
+    app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+  })
   .catch((e) => console.log(e));
 
 // CORS Configuration
@@ -54,7 +58,3 @@ app.get("/", (req, res) => {
 
 // Error Handler
 app.use(errorHandler);
-
-// Start the server
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
